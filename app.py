@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import io
-import xlsxwriter
 
 def compliance_score(df):
     df['terminate'] = 'N'
@@ -92,7 +91,19 @@ if uploaded_file is not None:
         df
     st.subheader('Preview:')
     st.write(df.head())
+    buffer = io.BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        df.to_excel(writer, sheet_name='Sheet1', index = False)
 
+        # Close the Pandas Excel writer and output the Excel file to the buffer
+        writer.close()
+
+        st.download_button(
+            label="Download Excel worksheets",
+            data=buffer,
+            file_name="t2_evaluation.xlsx",
+            mime="application/vnd.ms-excel"
+        )
     # download to excel 
     
     # st.write("Processed Data:")
@@ -105,16 +116,3 @@ if uploaded_file is not None:
     #     file_name='output.xlsx',
     #     mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     # )
-buffer = io.BytesIO()
-with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
-    df.to_excel(writer, sheet_name='Sheet1', index = False)
-
-    # Close the Pandas Excel writer and output the Excel file to the buffer
-    writer.close()
-
-    st.download_button(
-        label="Download Excel worksheets",
-        data=buffer,
-        file_name="t2_evaluation.xlsx",
-        mime="application/vnd.ms-excel"
-    )
