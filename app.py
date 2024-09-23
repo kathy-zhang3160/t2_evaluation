@@ -1,4 +1,4 @@
-import streamlit
+import streamlit as st
 import pandas 
 import numpy
 import io
@@ -79,9 +79,9 @@ def uploaded_weight_cal(df, df_weight):
     return df
 
 
-streamlit.title('Excel Processor')
+st.title('Excel Processor')
 
-uploaded_file = streamlit.file_uploader("Upload an Excel file", type="xlsx")
+uploaded_file = st.file_uploader("Upload an Excel file", type="xlsx")
 
 if uploaded_file is not None:
     df_weight = pandas.read_excel(uploaded_file)
@@ -91,10 +91,10 @@ if uploaded_file is not None:
     st.dataframe(df)
     
     df = uploaded_weight_cal(df, df_weight)
-    if streamlit.checkbox('Preview dataframe'):
+    if st.checkbox('Preview dataframe'):
         df
-    streamlit.subheader('Preview:')
-    streamlit.write(df.head())
+    st.subheader('Preview:')
+    st.write(df.head())
     buffer = io.BytesIO()
     with pandas.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Sheet1', index = False)
@@ -102,7 +102,7 @@ if uploaded_file is not None:
         # Close the Pandas Excel writer and output the Excel file to the buffer
         writer.close()
 
-        streamlit.download_button(
+        st.download_button(
             label="Download Excel worksheets",
             data=buffer,
             file_name="t2_evaluation.xlsx",
@@ -110,11 +110,11 @@ if uploaded_file is not None:
         )
     # download to excel 
     
-    # streamlit.write("Processed Data:")
-    # streamlit.dataframe(df)
+    # st.write("Processed Data:")
+    # st.dataframe(df)
 
     # # 下载链接
-    # streamlit.download_button(
+    # st.download_button(
     #     label="Download Processed Excel",
     #     data=df.to_excel(index=False, engine='openpyxl'),
     #     file_name='output.xlsx',
