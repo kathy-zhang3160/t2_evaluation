@@ -2,6 +2,7 @@ import streamlit as st
 import pandas 
 import numpy
 import io
+import xlsxwriter
 
 def compliance_score(df):
     df['terminate'] = 'N'
