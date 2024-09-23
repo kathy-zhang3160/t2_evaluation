@@ -91,7 +91,7 @@ if uploaded_file is not None:
     df = uploaded_weight_cal(df, df_weight)
     if st.checkbox('Preview dataframe'):
         st.dataframe(df)
-    st.subheader('Preview:')
+    st.subheader('Result Preview:')
     st.write(df.head())
     buffer = io.BytesIO()
     with pandas.ExcelWriter(buffer, engine='xlsxwriter') as writer:
