@@ -1,3 +1,8 @@
+import streamlit
+import pandas 
+import numpy
+import io
+
 def compliance_score(df):
     df['terminate'] = 'N'
 
