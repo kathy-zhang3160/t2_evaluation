@@ -88,12 +88,9 @@ if uploaded_file is not None:
     df_weight = pandas.read_excel(uploaded_file)
     url = 't2_evaluation_raw_data.xlsx'
     df = pandas.read_excel(url, engine='openpyxl')
-    st.write("Raw Data Preview:")
-    st.dataframe(df)
-    
     df = uploaded_weight_cal(df, df_weight)
     if st.checkbox('Preview dataframe'):
-        df
+        st.dataframe(df)
     st.subheader('Preview:')
     st.write(df.head())
     buffer = io.BytesIO()
