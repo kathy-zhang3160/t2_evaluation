@@ -7,7 +7,7 @@ def compliance_score(df):
     return df['cplc_score'], df['terminate']
 
 def uploaded_weight_cal(df, df_weight):
-    # df_weight= pd.read_excel('weight_dic.xlsx')
+    # df_weight= pandas.read_excel('weight_dic.xlsx')
     weight_L3 = df_weight.query('level == "level3" and mix == "Y"')
     L3_dict = weight_L3.set_index('index')['weight'].to_dict()
 
@@ -74,26 +74,26 @@ def uploaded_weight_cal(df, df_weight):
     return df
 
 
-st.title('Excel Processor')
+streamlit.title('Excel Processor')
 
-uploaded_file = st.file_uploader("Upload an Excel file", type="xlsx")
+uploaded_file = streamlit.file_uploader("Upload an Excel file", type="xlsx")
 
 if uploaded_file is not None:
-    df_weight = pd.read_excel(uploaded_file)
-    df = pd.read_excel('/Users/kaixizhang/Desktop/ENT/T2_evaluation/t2_evaluation_raw_data.xlsx')
+    df_weight = pandas.read_excel(uploaded_file)
+    df = pandas.read_excel('/Users/kaixizhang/Desktop/ENT/T2_evaluation/t2_evaluation_raw_data.xlsx')
     df = uploaded_weight_cal(df, df_weight)
-    if st.checkbox('Preview dataframe'):
+    if streamlit.checkbox('Preview dataframe'):
         df
-    st.subheader('Preview:')
-    st.write(df.head())
+    streamlit.subheader('Preview:')
+    streamlit.write(df.head())
     buffer = io.BytesIO()
-    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+    with pandas.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         df.to_excel(writer, sheet_name='Sheet1', index = False)
 
         # Close the Pandas Excel writer and output the Excel file to the buffer
         writer.close()
 
-        st.download_button(
+        streamlit.download_button(
             label="Download Excel worksheets",
             data=buffer,
             file_name="t2_evaluation.xlsx",
@@ -101,11 +101,11 @@ if uploaded_file is not None:
         )
     # download to excel 
     
-    # st.write("Processed Data:")
-    # st.dataframe(df)
+    # streamlit.write("Processed Data:")
+    # streamlit.dataframe(df)
 
     # # 下载链接
-    # st.download_button(
+    # streamlit.download_button(
     #     label="Download Processed Excel",
     #     data=df.to_excel(index=False, engine='openpyxl'),
     #     file_name='output.xlsx',
