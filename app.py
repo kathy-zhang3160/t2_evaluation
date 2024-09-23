@@ -85,7 +85,8 @@ uploaded_file = streamlit.file_uploader("Upload an Excel file", type="xlsx")
 
 if uploaded_file is not None:
     df_weight = pandas.read_excel(uploaded_file)
-    df = pandas.read_excel('/Users/kaixizhang/Desktop/ENT/T2_evaluation/t2_evaluation_raw_data.xlsx')
+    url = 'https://github.com/kathy-zhang3160/t2_evaluation/blob/main/t2_evaluation_raw_data.xlsx'
+    df = pandas.read_excel(url)
     df = uploaded_weight_cal(df, df_weight)
     if streamlit.checkbox('Preview dataframe'):
         df
