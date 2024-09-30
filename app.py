@@ -55,9 +55,7 @@ def uploaded_weight_cal(esc_cplc, df, df_weight):
     
     esc_cplc = esc_cplc.groupby('reseller').agg({'esc_terminate':'max',
                                       'esc_compliance_L2':'mean'}).reset_index()
-    df = df.reset_index().merge(esc_cplc, on = 'reseller', how = 'left')
-    
-    # df = df.set_index(['status', 'tier', 'disti_t1', 'reseller']).dropna(how='all').fillna(0)
+    df = df.merge(esc_cplc, on = 'reseller', how = 'left')
     
     # special deal for esc compliance L2, 因为全部应该为1，扣分制，空值应为1
     df['esc_compliance_L2'] = df['esc_compliance_L2'].fillna(1)
